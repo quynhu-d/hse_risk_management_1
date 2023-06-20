@@ -129,10 +129,10 @@ def plot_corr(data, ft_names=None, ax=None):
 from sklearn.preprocessing import MinMaxScaler
 from sklearn.decomposition import PCA
 def reduce_with_pca(data, fraction=0.95):
-    scaler = MinMaxScaler()
-    data_rescaled = scaler.fit_transform(data)
+    # scaler = MinMaxScaler()
+    # data_rescaled = scaler.fit_transform(data)
     pca = PCA(n_components = fraction)
-    reduced = pca.fit_transform(data_rescaled)
+    reduced = pca.fit_transform(data)
     return reduced, pca
 
 def plot_explained_variance(pca, ax=None, ylim=(0.0, 1.1)):

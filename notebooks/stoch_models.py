@@ -314,7 +314,7 @@ class Stoch_Models:
         axs.plot(self.t_test[:t], r_traj.T, color=self.colors[m], linewidth=0.5)
         axs.legend()
         metr = calculate_metric(self.val_test[:t], r_traj, mode=self.metric)
-        axs.set_title(f'{self.name}: моделирование бдущих значений ({self.metric} = {round(metr, 2)})')
+        axs.set_title(f'{self.name}: моделирование будущих значений ({self.metric} = {round(metr, 2)})')
         plt.show()
 
     def future_simulation(self, n_steps=None, best_model=None, plot=0):
@@ -322,15 +322,13 @@ class Stoch_Models:
             best_model = self.find_best_model()
         if n_steps is None:
             n_steps = len(self.t_test)
-        #print(n_steps, len(self.t_test[:n_steps]),  len(self.val_test[:n_steps]))
-        dt_ = np.diff(self.t_test[:n_steps])
         ct = len(self.t_train)-1
-        dWts = self.dW_N[:, ct:ct+n_steps-1]
-        #print(len(dt_), dWts.shape)
+        dt_ = np.diff(self.t_array[ct:ct+n_steps+1])
+        dWts = self.dW_N[:, ct:ct+n_steps]
         r_traj = []
         for dWt in dWts:
             r_tr = self.simulations_func[best_model](param=self.paramters[best_model], r_0=self.val_last, dt=dt_, dWt=dWt)
-            r_traj.append(np.array(r_tr))
+            r_traj.append(np.array(r_tr[1:]))
         if plot == 1:
             self.plot_simulations_future(np.array(r_traj), best_model, n_steps)
         return np.array(r_traj)
