@@ -367,15 +367,13 @@ class Stoch_Models:
             best_model = self.find_best_model()
         if n_steps is None:
             n_steps = len(self.t_test)
-        #print(n_steps, len(self.t_test[:n_steps]),  len(self.val_test[:n_steps]))
-        dt_ = np.diff(self.t_test[:n_steps])
         ct = len(self.t_train)-1
-        dWts = self.dW_N[:, ct:ct+n_steps-1]
-        #print(len(dt_), dWts.shape)
+        dt_ = np.diff(self.t_array[ct:ct+n_steps+1])
+        dWts = self.dW_N[:, ct:ct+n_steps]
         r_traj = []
         for dWt in dWts:
             r_tr = self.simulations_func[best_model](param=self.paramters[best_model], r_0=self.val_last, dt=dt_, dWt=dWt)
-            r_traj.append(np.array(r_tr))
+            r_traj.append(np.array(r_tr[1:]))
         if plot == 1:
             self.plot_simulations_future(np.array(r_traj), best_model, n_steps)
         return np.array(r_traj)
