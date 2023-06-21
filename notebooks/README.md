@@ -1,11 +1,11 @@
 ## 1. Data retrieval 
-See `RM_part1.ipynb`.
+See [`RM_part1.ipynb`](RM_part1.ipynb).
 
-For final dataset see `Final_data.xlsx`.
+For final dataset see [`Final_data.xlsx`](Final_data.xlsx).
 ## 2. Risk factors analysis 
-See `RM_part2.ipynb`, `data_stats.py`.
+See [`RM_part2.ipynb`](RM_part2.ipynb), [`data_stats.py`](data_stats.py).
 ## 3. Stochatic models 
-See `RM_part3.ipynb`, `stoch_models.py`.
+See [`RM_part3.ipynb`](RM_part3.ipynb), [`stoch_models.py`](stoch_models.py).
 
 Used models:
 - $\ dX_{t} = a \ dt + b \ dW_{t}$
@@ -17,7 +17,7 @@ Best model can be chosen based on the metric:
 - 'mae'
 - 'rmse'
 ## 4. Instrument modelling 
-See `RM_part4.ipynb`, `stoch_models_and_prediction.py`.
+See [`RM_part4.ipynb`](RM_part4.ipynb), [`stoch_models_and_prediction.py`](stoch_models_and_prediction.py).
 
 Used models:
 - Linear regression
@@ -28,4 +28,4 @@ Best model can be chosen based on the metric:
 - 'mae'
 - 'rmse'
 ## 5. VaR and Backtesting
-See `RM_part5_VaR.ipynb`.
+See [`RM_part5_VaR.ipynb`]().
