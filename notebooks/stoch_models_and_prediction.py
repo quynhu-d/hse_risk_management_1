@@ -25,6 +25,8 @@ import lightgbm as lgb
 
 from sklearn.metrics import mean_squared_error, mean_absolute_error, mean_absolute_percentage_error
 
+from sklearn.decomposition import PCA
+
 def split_data(df, split_date, start_date=None, end_date=None):
     train = df[df.Date <= split_date]
     test = df[df.Date > split_date]
@@ -202,7 +204,7 @@ def calculate_score(y_true, y_pred_N, mode='mape'):
         return None
 
 def make_predictions_LR(X_train, y_train, X_test):
-    model = LinearRegression(fit_intercept=False)
+    model = LinearRegression()
     model.fit(X_train, y_train)
     y_pred = model.predict(X_test)
     return y_pred
@@ -382,7 +384,7 @@ class Fair_value_measurement:
     def __init__(self, target_name, factors_name,
                  df, last_date,
                  n_steps=10, N_traj=100,
-                 metric='mape',
+                 metric='mape', use_pca=False,
                  models=None):
 
         self.target_name = target_name
@@ -391,7 +393,8 @@ class Fair_value_measurement:
         self.train, self.test = split_data(df, split_date=last_date)
         self.n_steps = n_steps
         self.N_traj = N_traj
-
+        self.use_pca = use_pca
+                     
         if models is not None:
             self.models = models
         else:
@@ -447,10 +450,23 @@ class Fair_value_measurement:
         axs.legend()
         axs.set_title(f'{self.target_name}')
         plt.show()
-
+        
+    def reduce_data_dim(self, data, is_train=False):
+        # PCA
+        if is_train:
+            pca = PCA(.95)
+            reduced = pca.fit_transform(data)
+            self.pca_fitted = pca
+            print('Data reduced, old shape:', data.shape, 'new shape:', reduced.shape)
+        else:
+            reduced = self.pca_fitted.transform(data)
+        return reduced
+    
     def make_predictions(self, plot=0):
         self.predicted = True
         x_train = self.train[self.risk_factors]
+        if self.use_pca:
+            x_train = self.reduce_data_dim(x_train, is_train=True)
         y_train = self.train[self.target_name]
         y_test = self.test[self.target_name].values[:self.n_steps]
 
@@ -459,6 +475,8 @@ class Fair_value_measurement:
         y_pred_lgbm = []
         for i in range(0, self.N_traj):
             x_test = self.make_x_test(i)
+            if self.use_pca:
+                x_test = self.reduce_data_dim(x_test)
             y_pred1 = make_predictions_LR(x_train, y_train, x_test)
             y_pred_lr.append(np.array(y_pred1))
             y_pred2 = make_predictions_boosting(x_train, y_train, x_test, self.metric)
