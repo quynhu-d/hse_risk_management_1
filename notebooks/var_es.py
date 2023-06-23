@@ -85,6 +85,3 @@ class Bootstrap_VE(VaR_ES):
         quantile_list = self._bootstrap_quantile(self.es_p, verbose)
         self.cvar975_1d = self.ret[self.ret <= np.mean(quantile_list)].mean()
         self.cvar975_10d = self.cvar975_1d * (10 ** 0.5)
-    
-    def plot_dist(self):
-        pass
