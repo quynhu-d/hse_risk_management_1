@@ -27,5 +27,16 @@ Best model can be chosen based on the metric:
 - 'mape'
 - 'mae'
 - 'rmse'
-## 5. VaR and Backtesting
-See [`RM_part5_VaR.ipynb`]().
+
+PCA option available (set desired explainable variance).
+
+## 5. VaR + ES and Backtesting
+See [`RM_part5_VaR.ipynb`](RM_part5_VaR.ipynb).
+
+[VaR](https://pypi.org/project/var/) (99%) and ES (97.5%) estimation methods:
+- parametric
+- historical
+- bootstrapping
+
+![alt text](../results/images/historic_var_all.png)
+![alt text](../results/images/historic_es_all.png)
