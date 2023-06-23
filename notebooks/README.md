@@ -31,7 +31,7 @@ Best model can be chosen based on the metric:
 PCA option available (set desired explainable variance).
 
 ## 5. VaR + ES and Backtesting
-See [`RM_part5_VaR.ipynb`](RM_part5_VaR.ipynb).
+See [`RM_part5_VaR.ipynb`](RM_part5_VaR.ipynb), [`var_es.py`](var_es.py).
 
 [VaR](https://pypi.org/project/var/) (99%) and ES (97.5%) estimation methods:
 - parametric
