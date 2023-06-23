@@ -414,7 +414,10 @@ class Fair_value_measurement:
         dW_corr = generate_dW_corr(self.df[self.risk_factors], dt=dt, w0=0, N_traj=self.N_traj)
 
         df_res = {}
-        for factor, dWn in tqdm(zip(self.risk_factors, dW_corr), total=len(self.risk_factors)):
+        for factor, dWn in tqdm(
+            zip(self.risk_factors, dW_corr), total=len(self.risk_factors),
+            desc='Getting risk factor simulations...', leave=False
+        ):
             sm = Stoch_Models(factor_name=factor,
                   value_train = self.train[factor].values, value_test = self.test[factor].values,
                   t_train = list(self.train.index), t_test = list(self.test.index),
